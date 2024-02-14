@@ -1,0 +1,52 @@
+---
+title: "Untitled"
+format: html
+---
+
+```{r}
+library(tidyverse)
+library(reactable)
+```
+
+```{r}
+install.packages("reactable")
+# dt, 
+```
+```{r}
+alc <- read_csv("WackRpackages/Alcohol_Consumption_US.csv")
+```
+
+```{r}
+table <- reactable(alc, searchable = TRUE, filterable = TRUE)
+table
+```
+
+```{r}
+library(tidyverse)
+library(reactablefmtr)
+library(reactable)
+```
+
+```{r}
+alc <- read_csv("WackRpackages/Alcohol_Consumption_US.csv")
+sb <- read_csv("WackRpackages/super-bowl-ratings.csv")
+```
+
+```{r}
+alctable <- reactable(alc, searchable = TRUE, filterable = TRUE)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

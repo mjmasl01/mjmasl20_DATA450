@@ -1,0 +1,11 @@
+
+
+
+
+```{r}
+usethis::use_git_config(user.name = "mjmasl01", user.email = "mjmasl20@stlawu.edu")
+```
+```{r}
+usethis::create_github_token()
+```
+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

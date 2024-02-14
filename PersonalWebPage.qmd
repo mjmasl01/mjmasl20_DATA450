@@ -1,0 +1,21 @@
+---
+title: "untitled"
+author: "Matt Maslow"
+format: html
+editior: visual
+---
+
+<www.linkedin.com/in/matthew-maslow>
+
+
+
+```{r}
+usethis::use_git_config(user.name = "mjmasl01", user.email = "mjmasl20@stlawu.edu")
+```
+
+
+```{r}
+usethis::create_github_token()
+```
+
+
