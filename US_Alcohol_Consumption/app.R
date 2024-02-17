@@ -11,18 +11,18 @@ ui <- fluidPage(
   tags$style(HTML("body {background-color: #FFB6C1; }")), 
   
   # Application title
-  titlePanel("US Alcohol Consumption"),
+  titlePanel(tags$h1("US Alcohol Consumption", style = "font-weight: bold; text-align: center;")),
   
   # Add author name below titlePanel
   tags$br(),
-  tags$p("Author: Matt Maslow", style = "font-size: 16px; color: #555;"),
+  tags$p("Author: Matt Maslow", style = "font-size: 16px;  text-align: center; color: #555;"),
   
   # Type of Alcohol Menu
   selectInput("style", "Style", c("Beer",
                                   "Wine",
                                   "Spirits",
                                   "All Types"
-                                  )),
+  )),
   
   # State Menu
   selectInput("state", "State", c("All",
@@ -76,7 +76,7 @@ ui <- fluidPage(
                                   "West Virginia",
                                   "Wisconsin",
                                   "Wyoming"
-                                  )),
+  )),
   
   
   # Bar Chart
@@ -102,7 +102,7 @@ server <- function(input, output) {
                               "All Types" = alc %>% group_by(State) %>% summarise(total = mean(`All beverages (Per capita consumption)`)))
       
       # Plotting for all states
-        # Identify top 3 states
+      # Identify top 3 states
       top_states <- filtered_data %>% arrange(desc(total)) %>% slice_head(n = 5)
       # for the fill of the barchart i implemented a ifelse statement to color the top 3 states red and the rest gray
       plt <- ggplot(filtered_data, aes(x = State, y = total, fill = ifelse(State %in% top_states$State, "Top 5", "Other"))) +
@@ -121,7 +121,7 @@ server <- function(input, output) {
         guides(fill = guide_legend(title = "Top 5 States")) +
         # now label the top 5 bars with their values
         geom_text(aes(label = ifelse(State %in% top_states$State, round(total, 2), "")), hjust = -0.1, size = 5, color = "black")
-        
+      
     } else {
       # Filtering based on selected beverage style and state
       filtered_data <- switch(input$style,
@@ -152,12 +152,3 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
-
-
-
-
-
-
-
-
