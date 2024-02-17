@@ -22,11 +22,11 @@ ui <- fluidPage(
                                   )),
   
   # State Menu
-  selectInput("state", "State", c("All", #
-                                  "Alabama", #
-                                  "Alaska", #
-                                  "Arizona", #
-                                  "Arkansas", #
+  selectInput("state", "State", c("All",
+                                  "Alabama",
+                                  "Alaska",
+                                  "Arizona",
+                                  "Arkansas",
                                   "California",
                                   "Colorado",
                                   "Connecticut",
@@ -80,141 +80,59 @@ ui <- fluidPage(
   plotOutput("US_alc_Consumption", width = "100%", height = "600px", hover = hoverOpts(id = "plot_hover"))
   
   
-  
 )
 
 # Define server logic
 server <- function(input, output) {
   
-  # Create plot
+  # Create plot. 
   output$US_alc_Consumption <- renderPlot({
     
     # for all states
-    if(input$state == "All"){
-      # for Beer
-      if(input$style == "Beer"){
-        statesALC <- 
-          alc %>% 
-          group_by(State) %>% 
-          summarise(
-            totalBeer = mean(`Beer (Per capita consumption)`)
-            )
-        
-        plt = ggplot(statesALC, aes(x = State, y = totalBeer)) +
-          geom_bar(stat = "identity") +
-          theme(axis.text.y.left = element_text(angle = 45, vjust = 1)) +
-          
-          theme_minimal() +
-          labs(x = "State", y = "Beer Consumption") +
-          coord_flip()
-      }
+    if (input$state == "All") {
+      # Filtering based on selected beverage style
+      # switch() function in R is used for vectorized conditional branching
+      # it allows you to select one of several expressions
+      filtered_data <- switch(input$style,
+                              "Beer" = alc %>% group_by(State) %>% summarise(total = mean(`Beer (Per capita consumption)`)),
+                              "Wine" = alc %>% group_by(State) %>% summarise(total = mean(`Wine (Per capita consumption)`)),
+                              "Spirits" = alc %>% group_by(State) %>% summarise(total = mean(`Spirits (Per capita consumption)`)),
+                              "All Types" = alc %>% group_by(State) %>% summarise(total = mean(`All beverages (Per capita consumption)`)))
       
-      # for Wine
-      if(input$style == "Wine"){
-        statesALC <- 
-          alc %>% 
-          group_by(State) %>% 
-          summarise(
-            totalWine = mean(`Wine (Per capita consumption)`)
-            )
-        
-        plt = ggplot(statesALC, aes(x = State, y = totalWine)) +
-          geom_bar(stat = "identity") +
-          theme_minimal() +
-          labs(x = "State", y = "Wine Consumption") +
-          coord_flip()
-      }
-      
-      # for spirits
-      if(input$style == "Spirits"){
-        statesALC <- 
-          alc %>% 
-          group_by(State) %>% 
-          summarise(
-            totalSpirits = mean(`Spirits (Per capita consumption)`)
-            )
-        
-        plt = ggplot(statesALC, aes(x = State, y = totalSpirits)) +
-          geom_bar(stat = "identity") +
-          theme_minimal() +
-          labs(x = "State", y = "Spirits Consumption") +
-          coord_flip()
-      }
-      
-      # for all types
-      if(input$style == "All Types"){
-      
-      statesALC <- 
-        alc %>% 
-        group_by(State) %>% 
-        summarise(
-          totalAll = mean(`All beverages (Per capita consumption)`)
-          )
-      
-      plt = ggplot(statesALC, aes(x = State, y = totalAll)) +
+      # Plotting for all states
+      plt <- ggplot(filtered_data, aes(x = State, y = total)) +
         geom_bar(stat = "identity") +
         theme_minimal() +
-        labs(x = "State", y = "All Alcohol Consumption") +
+        labs(x = "State", y = input$style) +
         coord_flip()
-      }
-    }else{
-
-    # for Alabama
-    if(input$state == "Alabama"){
-      # for Beer
-      if(input$style == "Beer"){
-        alabamaALC <- 
-          alc %>% 
-          filter(State == "Alabama") %>% 
-          summarise(
-            totalBeer = mean(`Beer (Per capita consumption)`)
-            )
         
-        plt = ggplot(alabamaALC, aes(x = Year, y = totalBeer)) +
-          geom_point() +
-          theme_minimal() +
-          labs(x = "State", y = "Beer Consumption") +
-          coord_flip()
-      }
+    } else {
+      # Filtering based on selected beverage style and state
+      filtered_data <- switch(input$style,
+                              "Beer" = alc %>% filter(State == input$state) %>% select(Year, `Beer (Per capita consumption)`) %>% rename(total = `Beer (Per capita consumption)`),
+                              "Wine" = alc %>% filter(State == input$state) %>% select(Year, `Wine (Per capita consumption)`) %>% rename(total = `Wine (Per capita consumption)`),
+                              "Spirits" = alc %>% filter(State == input$state) %>% select(Year, `Spirits (Per capita consumption)`) %>% rename(total = `Spirits (Per capita consumption)`),
+                              "All Types" = alc %>% filter(State == input$state) %>% select(Year, `All beverages (Per capita consumption)`) %>% rename(total = `All beverages (Per capita consumption)`))
       
-      # for Wine
-      if(input$style == "Wine"){
-        alabamaALC <- 
-          alc %>% 
-          filter(State == "Alabama") %>% 
-          summarise(
-            totalWine = mean(`Wine (Per capita consumption)`)
-            )
-        
-        plt = ggplot(alabamaALC, aes(x = Year, y = totalWine)) +
-          geom_point() +
-          theme_minimal() +
-          labs(x = "State", y = "Wine Consumption") +
-          coord_flip()
-      }
-      
-      # for spirits
-      if(input$style == "Spirits"){
-        alabamaALC <- 
-          alc %>% 
-          filter(State == "Alabama") %>% 
-          summarise(
-            totalSpirits = mean(`Spirits (Per capita consumption)`)
-            )
-        
-        plt = ggplot(alabamaALC, aes(x = Year, y = totalSpirits)) +
-          geom_point() +
-          theme_minimal() +
-          labs(x = "State", y = "Spirits Consumption") +
-          coord_flip()
-      
-      }
-      
+      # Plotting for individual state as a timeline
+      plt <- ggplot(filtered_data, aes(x = Year, y = total)) +
+        geom_line(color = "red") +
+        theme_minimal() +
+        # add a title that includes the State name and the selected beverage style
+        labs(title = paste(input$state, input$style, "Consumption"), x = "Year", y = input$style) +
+        coord_cartesian() +
+        theme(axis.text.x = element_text(size = 7)) +
+        theme(axis.text.y = element_text(size = 7)) +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        theme(axis.title = element_text(size = 20))
     }
-    }
+    
     plt
   })
+  
+  
 }
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)
