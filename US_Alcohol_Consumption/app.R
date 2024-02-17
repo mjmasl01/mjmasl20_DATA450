@@ -105,9 +105,9 @@ server <- function(input, output) {
         # Identify top 3 states
       top_states <- filtered_data %>% arrange(desc(total)) %>% slice_head(n = 5)
       # for the fill of the barchart i implemented a ifelse statement to color the top 3 states red and the rest gray
-      plt <- ggplot(filtered_data, aes(x = State, y = total, fill = ifelse(State %in% top_states$State, "Top 3", "Other"))) +
+      plt <- ggplot(filtered_data, aes(x = State, y = total, fill = ifelse(State %in% top_states$State, "Top 5", "Other"))) +
         geom_bar(stat = "identity") +
-        scale_fill_manual(values = c("Top 3" = "red", "Other" = "gray")) +
+        scale_fill_manual(values = c("Top 5" = "red", "Other" = "gray")) +
         theme_minimal() +
         labs(x = "State", y = input$style) +
         coord_flip() +
@@ -118,7 +118,9 @@ server <- function(input, output) {
         theme(axis.title = element_text(size = 20, color = ifelse(filtered_data$State %in% top_states$State, "red", "black")),
               axis.text = element_text(size = 12, color = ifelse(filtered_data$State %in% top_states$State, "red", "black"))) +
         # change legend name
-        guides(fill = guide_legend(title = "Top 3 States"))
+        guides(fill = guide_legend(title = "Top 5 States")) +
+        # now label the top 5 bars with their values
+        geom_text(aes(label = ifelse(State %in% top_states$State, round(total, 2), "")), hjust = -0.1, size = 5, color = "black")
         
     } else {
       # Filtering based on selected beverage style and state
@@ -138,7 +140,10 @@ server <- function(input, output) {
         theme(axis.title = element_text(size = 20)) +
         theme(axis.text = element_text(size = 15)) +
         theme(plot.title = element_text(hjust = 0.5)) +
-        theme(plot.title = element_text(size = 25))
+        theme(plot.title = element_text(size = 25)) +
+        # label the maxes and mins, with (x,y), and if the max/min is the same as the last value, don't label it, and if the max is at the end of the plot label it
+        geom_text(aes(label = ifelse(total == max(total) & total != lag(total), round(total, 2), "")), hjust = -0.1, size = 5, color = "black") +
+        geom_text(aes(label = ifelse(total == min(total) & total != lag(total), round(total, 2), "")), hjust = -0.1, size = 5, color = "black")
     }
     plt
   })
