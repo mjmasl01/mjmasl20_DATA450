@@ -1,7 +1,5 @@
 
 
-# https://unc-libraries-data.github.io/R-Open-Labs/Extras/shiny/shiny.html
-
 library(shiny)
 library(tidyverse)
 
@@ -10,9 +8,14 @@ alc <- read_csv("Alcohol_Consumption_US.csv")
 # Define UI for application
 ui <- fluidPage(
   
+  tags$style(HTML("body {background-color: #FFB6C1; }")), 
+  
   # Application title
   titlePanel("US Alcohol Consumption"),
   
+  # Add author name below titlePanel
+  tags$br(),
+  tags$p("Author: Matt Maslow", style = "font-size: 16px; color: #555;"),
   
   # Type of Alcohol Menu
   selectInput("style", "Style", c("Beer",
@@ -79,7 +82,6 @@ ui <- fluidPage(
   # Bar Chart
   plotOutput("US_alc_Consumption", width = "100%", height = "600px", hover = hoverOpts(id = "plot_hover"))
   
-  
 )
 
 # Define server logic
@@ -100,11 +102,23 @@ server <- function(input, output) {
                               "All Types" = alc %>% group_by(State) %>% summarise(total = mean(`All beverages (Per capita consumption)`)))
       
       # Plotting for all states
-      plt <- ggplot(filtered_data, aes(x = State, y = total)) +
+        # Identify top 3 states
+      top_states <- filtered_data %>% arrange(desc(total)) %>% slice_head(n = 5)
+      # for the fill of the barchart i implemented a ifelse statement to color the top 3 states red and the rest gray
+      plt <- ggplot(filtered_data, aes(x = State, y = total, fill = ifelse(State %in% top_states$State, "Top 3", "Other"))) +
         geom_bar(stat = "identity") +
+        scale_fill_manual(values = c("Top 3" = "red", "Other" = "gray")) +
         theme_minimal() +
         labs(x = "State", y = input$style) +
-        coord_flip()
+        coord_flip() +
+        labs(title = paste("US", input$style, "Consumption")) +
+        theme(axis.title = element_text(size = 20)) +
+        theme(plot.title = element_text(hjust = 0.5)) +
+        theme(plot.title = element_text(size = 25)) +
+        theme(axis.title = element_text(size = 20, color = ifelse(filtered_data$State %in% top_states$State, "red", "black")),
+              axis.text = element_text(size = 12, color = ifelse(filtered_data$State %in% top_states$State, "red", "black"))) +
+        # change legend name
+        guides(fill = guide_legend(title = "Top 3 States"))
         
     } else {
       # Filtering based on selected beverage style and state
@@ -121,21 +135,19 @@ server <- function(input, output) {
         # add a title that includes the State name and the selected beverage style
         labs(title = paste(input$state, input$style, "Consumption"), x = "Year", y = input$style) +
         coord_cartesian() +
-        theme(axis.text.x = element_text(size = 7)) +
-        theme(axis.text.y = element_text(size = 7)) +
+        theme(axis.title = element_text(size = 20)) +
+        theme(axis.text = element_text(size = 15)) +
         theme(plot.title = element_text(hjust = 0.5)) +
-        theme(axis.title = element_text(size = 20))
+        theme(plot.title = element_text(size = 25))
     }
-    
     plt
   })
   
-  
 }
-
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+
 
 
 
