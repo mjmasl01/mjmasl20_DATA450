@@ -1,165 +1,150 @@
 
 
- library(shiny)
+library(shiny)
 library(tidyverse)
 
+# Reading the data
 alc <- read_csv("Alcohol_Consumption_US.csv")
+
+# List of states
+states <- c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia",
+            "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts",
+            "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey",
+            "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island",
+            "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia",
+            "Wisconsin", "Wyoming")
 
 # Define UI for application
 ui <- fluidPage(
-  
-  tags$style(HTML("body {background-color: #FFB6C1; }")), 
-  
-  # Application title
-  titlePanel("US Alcohol Consumption"),
-  
-  # Add author name below titlePanel
+  tags$style(HTML("body {background-color: #FFB6C1; }")),
+  titlePanel(tags$h1("US Alcohol Consumption (Per Capita)", style = "font-weight: bold; text-align: center;")),
   tags$br(),
-  tags$p("Author: Matt Maslow", style = "font-size: 16px; color: #555;"),
-  
-  # Type of Alcohol Menu
-  selectInput("style", "Style", c("Beer",
-                                  "Wine",
-                                  "Spirits",
-                                  "All Types"
-                                  )),
-  
-  # State Menu
-  selectInput("state", "State", c("All",
-                                  "Alabama",
-                                  "Alaska",
-                                  "Arizona",
-                                  "Arkansas",
-                                  "California",
-                                  "Colorado",
-                                  "Connecticut",
-                                  "Delaware",
-                                  "Florida",
-                                  "Georgia",
-                                  "Hawaii",
-                                  "Idaho",
-                                  "Illinois",
-                                  "Indiana",
-                                  "Iowa",
-                                  "Kansas",
-                                  "Kentucky",
-                                  "Louisiana",
-                                  "Maine",
-                                  "Maryland",
-                                  "Massachusetts",
-                                  "Michigan",
-                                  "Minnesota",
-                                  "Mississippi",
-                                  "Missouri",
-                                  "Montana",
-                                  "Nebraska",
-                                  "Nevada",
-                                  "New Hampshire",
-                                  "New Jersey",
-                                  "New Mexico",
-                                  "New York",
-                                  "North Carolina",
-                                  "North Dakota",
-                                  "Ohio",
-                                  "Oklahoma",
-                                  "Oregon",
-                                  "Pennsylvania",
-                                  "Rhode Island",
-                                  "South Carolina",
-                                  "South Dakota",
-                                  "Tennessee",
-                                  "Texas",
-                                  "Utah",
-                                  "Vermont",
-                                  "Virginia",
-                                  "Washington",
-                                  "West Virginia",
-                                  "Wisconsin",
-                                  "Wyoming"
-                                  )),
-  
-  
-  # Bar Chart
-  plotOutput("US_alc_Consumption", width = "100%", height = "600px", hover = hoverOpts(id = "plot_hover"))
-  
+  tags$p("Author: Matt Maslow", style = "font-size: 21px;  text-align: center; color: darkred;"),
+  # print a message for user
+  tags$p("For the States option.... if you select 'All' then will see a BarPlot.... Otherwise, selecting any other 'State' will produce a line plot.", style = "font-size: 18px; text-align: center; color: darkred;"),
+  tags$br(),
+  fluidRow(
+    column(3, selectInput("style", "Style of Alcohol", c("Beer", "Wine", "Spirits", "All Types"), selected = "All Types")),
+    column(3, selectInput("state", "Select State(s)", c("All", states), multiple = TRUE, selected = "All")),
+    column(3, selectInput("organization", "Type of Organization (For All States)",c("by States", "by Consumption"))),
+    column(3, selectInput("order", "Sort Order", c("asc", "desc")))
+  ),
+  tags$br(),
+  hr(),
+  fluidRow(column(3, verbatimTextOutput("value"))),
+  plotOutput("US_alc_Consumption", width = "auto", height = "800px"),
+  tags$br()
 )
 
 # Define server logic
 server <- function(input, output) {
-  
-  # Create plot. 
   output$US_alc_Consumption <- renderPlot({
     
-    # for all states
     if (input$state == "All") {
-      # Filtering based on selected beverage style
-      # switch() function in R is used for vectorized conditional branching
-      # it allows you to select one of several expressions
       filtered_data <- switch(input$style,
                               "Beer" = alc %>% group_by(State) %>% summarise(total = mean(`Beer (Per capita consumption)`)),
                               "Wine" = alc %>% group_by(State) %>% summarise(total = mean(`Wine (Per capita consumption)`)),
                               "Spirits" = alc %>% group_by(State) %>% summarise(total = mean(`Spirits (Per capita consumption)`)),
-                              "All Types" = alc %>% group_by(State) %>% summarise(total = mean(`All beverages (Per capita consumption)`)))
+                              "All Types" = alc %>% group_by(State) %>% summarise(total = mean(`All beverages (Per capita consumption)`))
+      )
       
-      # Plotting for all states
-        # Identify top 3 states
-      top_states <- filtered_data %>% arrange(desc(total)) %>% slice_head(n = 5)
-      # for the fill of the barchart i implemented a ifelse statement to color the top 3 states red and the rest gray
+      top_states <- filtered_data %>% slice_max(n = 5, order_by = total)
+      
+      # how to order the data (either the State or the total consumption of selected style of alcohol)
+      if (input$organization == "by States") {
+        if (input$order == "asc") {
+          filtered_data <- filtered_data %>% mutate(State = factor(State, levels = rev(unique(State)))) %>% arrange(State)
+        } else {   }
+      } else {
+        if (input$order == "asc") {
+          filtered_data <- filtered_data %>% mutate(State = fct_reorder(State, total)) %>% arrange(total)
+        } else {
+          # now is reverse order
+          filtered_data <- filtered_data %>% mutate(State = fct_reorder(State, -total)) %>% arrange(total)
+        }
+      }
+      
       plt <- ggplot(filtered_data, aes(x = State, y = total, fill = ifelse(State %in% top_states$State, "Top 5", "Other"))) +
         geom_bar(stat = "identity") +
-        scale_fill_manual(values = c("Top 5" = "red", "Other" = "gray")) +
+        scale_fill_manual(values = c("Top 5" = "orange", "Other" = "gray")) +
         theme_minimal() +
         labs(x = "State", y = input$style) +
         coord_flip() +
         labs(title = paste("US", input$style, "Consumption")) +
-        theme(axis.title = element_text(size = 20)) +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        theme(plot.title = element_text(size = 25)) +
-        theme(axis.title = element_text(size = 20, color = ifelse(filtered_data$State %in% top_states$State, "red", "black")),
-              axis.text = element_text(size = 12, color = ifelse(filtered_data$State %in% top_states$State, "red", "black"))) +
-        # change legend name
+        theme(axis.title = element_text(size = 35)) +
+        theme(axis.text.y = element_text(size = 12)) +
+        theme(axis.text.x = element_text(size = 20)) +
+        theme(plot.title = element_text(hjust = 0.5, size = 45)) +
         guides(fill = guide_legend(title = "Top 5 States")) +
-        # now label the top 5 bars with their values
         geom_text(aes(label = ifelse(State %in% top_states$State, round(total, 2), "")), hjust = -0.1, size = 5, color = "black")
-        
-    } else {
-      # Filtering based on selected beverage style and state
-      filtered_data <- switch(input$style,
-                              "Beer" = alc %>% filter(State == input$state) %>% select(Year, `Beer (Per capita consumption)`) %>% rename(total = `Beer (Per capita consumption)`),
-                              "Wine" = alc %>% filter(State == input$state) %>% select(Year, `Wine (Per capita consumption)`) %>% rename(total = `Wine (Per capita consumption)`),
-                              "Spirits" = alc %>% filter(State == input$state) %>% select(Year, `Spirits (Per capita consumption)`) %>% rename(total = `Spirits (Per capita consumption)`),
-                              "All Types" = alc %>% filter(State == input$state) %>% select(Year, `All beverages (Per capita consumption)`) %>% rename(total = `All beverages (Per capita consumption)`))
       
-      # Plotting for individual state as a timeline
-      plt <- ggplot(filtered_data, aes(x = Year, y = total)) +
-        geom_line(color = "red") +
+    }else {
+      
+      #filtered_data <- switch(input$style,
+                    #          "Beer" = alc %>% filter(State %in% input$state) %>% 
+                   #             group_by(State, Year) %>%
+                  #              pivot_wider(names_from = State, values_from = `Beer (Per capita consumption)`) %>%
+                 #               rename(consumption = `Beer (Per capita consumption)`),
+                #              
+               #               "Wine" = alc %>% filter(State %in% input$state) %>%
+              #                  group_by(State, Year) %>%
+             #                   pivot_wider(names_from = State, values_from = `Wine (Per capita consumption)`) %>%
+            #                    rename(consumption = `Wine (Per capita consumption)`),
+           #                   
+          #                    "Spirits" = alc %>% filter(State %in% input$state) %>%
+         #                       group_by(State, Year) %>%
+        #                        pivot_wider(names_from = State, values_from = `Spirits (Per capita consumption)`) %>%
+       #                         rename(consumption = `Spirits (Per capita consumption)`),
+      #                        
+     #                         "All Types" = alc %>%
+    #                            filter(State %in% input$state) %>%
+   #                             select(State, Year, `All beverages (Per capita consumption)`) %>%
+  #                              group_by(State, Year) %>%
+ #                               rename(consumption = `All beverages (Per capita consumption)`)
+#      )
+
+      
+      filtered_data <- switch(input$style,
+                              "Beer" = alc %>% filter(State %in% input$state) %>% 
+                                group_by(State, Year) %>% 
+                                summarise(total = mean(`Beer (Per capita consumption)`)),
+                              "Wine" = alc %>% filter(State %in% input$state) %>% 
+                                group_by(State, Year) %>% 
+                                summarise(total = mean(`Wine (Per capita consumption)`)),
+                              "Spirits" = alc %>% filter(State %in% input$state) %>% 
+                                group_by(State, Year) %>% 
+                                summarise(total = mean(`Spirits (Per capita consumption)`)),
+                              "All Types" = alc %>% filter(State %in% input$state) %>% 
+                                group_by(State, Year) %>% 
+                                summarise(total = mean(`All beverages (Per capita consumption)`))
+      )
+      
+      order_direction <- ifelse(input$order == "asc", "asc", "desc")
+      filtered_data <- filtered_data %>% arrange(State, desc(total))
+      
+      maxData <- filtered_data %>% group_by(State) %>% arrange(desc(total)) %>% slice(1)
+      
+      plt <- ggplot(filtered_data, aes(x = Year, y = total, color = State)) +
+        geom_line() +
         theme_minimal() +
-        # add a title that includes the State name and the selected beverage style
-        labs(title = paste(input$state, input$style, "Consumption"), x = "Year", y = input$style) +
-        coord_cartesian() +
-        theme(axis.title = element_text(size = 20)) +
-        theme(axis.text = element_text(size = 15)) +
-        theme(plot.title = element_text(hjust = 0.5)) +
-        theme(plot.title = element_text(size = 25)) +
-        # label the maxes and mins, with (x,y), and if the max/min is the same as the last value, don't label it, and if the max is at the end of the plot label it
-        geom_text(aes(label = ifelse(total == max(total) & total != lag(total), round(total, 2), "")), hjust = -0.1, size = 5, color = "black") +
-        geom_text(aes(label = ifelse(total == min(total) & total != lag(total), round(total, 2), "")), hjust = -0.1, size = 5, color = "black")
+        labs(title = paste("US", paste(input$state, collapse = ", "), input$style, "Consumption"), x = "Year", y = input$style) +
+        theme(axis.title = element_text(size = 30)) +
+        theme(axis.text = element_text(size = 25)) +
+        theme(plot.title = element_text(hjust = 0.5, size = 35)) +
+        geom_text(data = filtered_data %>% group_by(State) %>% arrange(desc(total)) %>% slice(1),
+                  aes(label = round(total, 2)), hjust = -0.1, size = 5, color = "black") +
+        geom_text(data = filtered_data %>% group_by(State) %>% arrange(total) %>% slice(1),
+                  aes(label = round(total, 2)), hjust = -0.1, size = 5, color = "black")
     }
+    
     plt
-  })
+    
+  }, width = "auto", height = "auto") # allows for plots to resize with window
   
 }
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
-
-
-
-
-
-
-
 
 
 
