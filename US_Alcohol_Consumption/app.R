@@ -76,6 +76,7 @@ server <- function(input, output) {
         theme(axis.text.x = element_text(size = 20)) +
         theme(plot.title = element_text(hjust = 0.5, size = 45)) +
         guides(fill = guide_legend(title = "Top 5 States")) +
+        theme(legend.title = element_text(size = 20)) +
         geom_text(aes(label = ifelse(State %in% top_states$State, round(total, 2), "")), hjust = -0.1, size = 5, color = "black")
       
       
@@ -133,9 +134,9 @@ server <- function(input, output) {
         theme(axis.text = element_text(size = 22)) +
         theme(plot.title = element_text(hjust = 0.5, size = 35)) +
         geom_text(data = filtered_data %>% group_by(State) %>% arrange(desc(total)) %>% slice(1),
-                  aes(label = round(total, 2)), hjust = -0.1, size = 5, color = "black") +
+                  aes(label = round(total, 2)), hjust = -0.1, size = 8, color = "black") +
         geom_text(data = filtered_data %>% group_by(State) %>% arrange(total) %>% slice(1),
-                  aes(label = round(total, 2)), hjust = -0.1, size = 5, color = "black")
+                  aes(label = round(total, 2)), hjust = -0.1, size = 8, color = "black")
     }
     
     plt
@@ -146,7 +147,6 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
-
 
 
 
