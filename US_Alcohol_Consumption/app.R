@@ -16,12 +16,12 @@ states <- c("Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado"
 
 # Define UI for application
 ui <- fluidPage(
-  tags$style(HTML("body {background-color: #FFB6C1; }")),
-  titlePanel(tags$h1("US Alcohol Consumption (Per Capita)", style = "font-weight: bold; text-align: center;")),
-  tags$br(),
-  tags$p("Author: Matt Maslow", style = "font-size: 21px;  text-align: center; color: darkred;"),
+  tags$style(HTML("body {background-color: lightblue; }")),
+  titlePanel(tags$h1("US Alcohol Consumption (Per Capita)", style = "font-weight: bold; text-align: center; color: darkblue; font-size: 40px;")),
+  tags$p("Author: Matt Maslow", style = "font-size: 21px;  text-align: center; color: black;"),
   # print a message for user
-  tags$p("For the States option.... if you select 'All' then will see a BarPlot.... Otherwise, selecting any other 'State' will produce a line plot.", style = "font-size: 18px; text-align: center; color: darkred;"),
+  tags$p("For the States option.... if you select 'All' then will see a BarPlot.... Otherwise, selecting any other 'State' will produce a line plot.",
+         style = "font-size: 17px; text-align: center; color: black;"),
   tags$br(),
   fluidRow(
     column(3, selectInput("style", "Style of Alcohol", c("Beer", "Wine", "Spirits", "All Types"), selected = "All Types")),
@@ -72,11 +72,12 @@ server <- function(input, output) {
         coord_flip() +
         labs(title = paste("US", input$style, "Consumption")) +
         theme(axis.title = element_text(size = 35)) +
-        theme(axis.text.y = element_text(size = 12)) +
+        theme(axis.text.y = element_text(size = 12, face = ifelse(filtered_data$State %in% top_states$State, "bold.italic", "plain"))) +
         theme(axis.text.x = element_text(size = 20)) +
         theme(plot.title = element_text(hjust = 0.5, size = 45)) +
         guides(fill = guide_legend(title = "Top 5 States")) +
         geom_text(aes(label = ifelse(State %in% top_states$State, round(total, 2), "")), hjust = -0.1, size = 5, color = "black")
+      
       
     }else {
       
@@ -129,7 +130,7 @@ server <- function(input, output) {
         theme_minimal() +
         labs(title = paste("US", paste(input$state, collapse = ", "), input$style, "Consumption"), x = "Year", y = input$style) +
         theme(axis.title = element_text(size = 30)) +
-        theme(axis.text = element_text(size = 25)) +
+        theme(axis.text = element_text(size = 22)) +
         theme(plot.title = element_text(hjust = 0.5, size = 35)) +
         geom_text(data = filtered_data %>% group_by(State) %>% arrange(desc(total)) %>% slice(1),
                   aes(label = round(total, 2)), hjust = -0.1, size = 5, color = "black") +
@@ -145,6 +146,7 @@ server <- function(input, output) {
 
 # Run the application 
 shinyApp(ui = ui, server = server)
+
 
 
 
