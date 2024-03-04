@@ -1,0 +1,99 @@
+---
+title: "Mixed Martial Arts (MMA) Fights Analysis"
+date: syst.date()
+description: Investigating the comprehensive collection of professional mixed martial arts fights
+editor: 
+  canonical: true
+categories:
+  - summary statistics
+  - 
+---
+
+
+## Module
+
+Please note that these material have not yet completed the required pedagogical and industry peer-reviews to become a published module on the SCORE Network. However, instructors are still welcome to use these materials if they are so inclined.
+
+
+![A investigations of Mixed Martial Arts](mma.jpg)
+
+
+### Introduction
+
+::: {.callout-note collapse="true" title="Learning Objectives" appearance="minimal"}
+
+1.
+
+2.
+
+3.
+
+
+:::
+
+::: {.callout-note collapse="true" title="Methods" appearance="minimal"}
+
+1.
+
+2.
+
+3.
+
+:::
+
+
+### Data
+
+#### About the data
+
+A data frame for the comprehensive collection of professional mixed martial arts fights has been compiled, encompassing bouts from the Ultimate Fighting Championship, Bellator MMA, and ONE Championship up to August 11, 2021 (the date of data retrieval). This data set comprises information on 10,448 professional MMA fights.
+
+Download data: [pro_mma_fights.csv](pro_mma_fights.csv)
+
+Data Source: <a href="https://www.kaggle.com/datasets/binduvr/pro-mma-fights/data" target="_blank">Pro MMA Fights Data Set</a>
+
+<details>
+
+<summary><b>Variable Descriptions</b></summary>
+
+| **Variable**      | **Description**                                              |
+|-------------------|--------------------------------------------------------------|
+| `url`             |  website URL to the event/fight                              |
+| `event_title`     |  title of event/fight.                                       |
+| `organisation`    |  MMA organization that's promoting the event/fight           |
+| `date`            |  date of event/fight                                         |
+| `location`        |  location of event/fight                                     |
+| `match_nr`        |  number of match, in which it take place during the event    |
+| `fighter1_url`    |  website URL to the fighter 1                                |
+| `fighter2_url`    |  website URL to the fighter 2                                |
+| `fighter1_name`   |  name of fighter 1                                           |
+| `fighter2_name`   |  name of fighter 2                                           |
+| `fighter1_result` |  fighter one's result                                        |
+| `fighter2_result` |  fighter two's result                                        |
+| `win_method`      |  how the match was won, like the method (category)           |
+| `win_details`     |  details on how match was won                                |
+| `referee`         |  name of the referee for the event/fight                     |
+| `round`           |  number of rounds endured before a win                       |
+| `time`            |  time taken for someone to win the event/fight               |
+
+</details>
+
+
+### Materials
+
+[Class handout](LoL_Worksheet.docx)
+
+[Class handout - with solutions](LoL_Worksheet_Key.docx)
+
+::: {.callout-note collapse="true" title="Conclusion" appearance="minimal"}
+In conclusion, the analysis.....
+The presence of outliers....
+:::
+
+
+
+
+
+
+
+
