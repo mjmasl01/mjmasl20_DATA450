@@ -85,9 +85,9 @@ Data Source: <a href="https://courses.edx.org/c4x/UTAustinX/UT.7.01x/asset/BullR
 
 ### Materials
 
-[Class handout](LoL_Worksheet.docx)
+[Class handout](pbr.docx)
 
-[Class handout - with solutions](LoL_Worksheet_Key.docx)
+[Class handout - with solutions](pbr_answers.docx)
 
 ::: {.callout-note collapse="true" title="Conclusion" appearance="minimal"}
 In conclusion, the analysis.....

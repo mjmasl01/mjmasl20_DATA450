@@ -81,9 +81,9 @@ Data Source: <a href="https://www.kaggle.com/datasets/binduvr/pro-mma-fights/dat
 
 ### Materials
 
-[Class handout](LoL_Worksheet.docx)
+[Class handout](mma.docx)
 
-[Class handout - with solutions](LoL_Worksheet_Key.docx)
+[Class handout - with solutions](mma_answers.docx)
 
 ::: {.callout-note collapse="true" title="Conclusion" appearance="minimal"}
 In conclusion, the analysis.....

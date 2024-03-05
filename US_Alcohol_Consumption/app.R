@@ -19,19 +19,24 @@ ui <- fluidPage(
   tags$style(HTML("body {background-color: lightblue; }")),
   titlePanel(tags$h1("US Alcohol Consumption (Per Capita)", style = "font-weight: bold; text-align: center; color: darkblue; font-size: 40px;")),
   tags$p("Author: Matt Maslow", style = "font-size: 21px;  text-align: center; color: black;"),
-  # print a message for user
+  # print a message for the user
   tags$p("For the States option.... if you select 'All' then will see a BarPlot.... Otherwise, selecting any other 'State' will produce a line plot.",
          style = "font-size: 17px; text-align: center; color: black;"),
   tags$br(),
+  
   fluidRow(
     column(3, selectInput("style", "Style of Alcohol", c("Beer", "Wine", "Spirits", "All Types"), selected = "All Types")),
     column(3, selectInput("state", "Select State(s)", c("All", states), multiple = TRUE, selected = "All")),
     column(3, selectInput("organization", "Type of Organization (For All States)",c("by States", "by Consumption"))),
     column(3, selectInput("order", "Sort Order", c("asc", "desc")))
   ),
+  
   tags$br(),
+  
   hr(),
+  
   fluidRow(column(3, verbatimTextOutput("value"))),
+  
   plotOutput("US_alc_Consumption", width = "auto", height = "800px"),
   tags$br()
 )
@@ -40,11 +45,7 @@ ui <- fluidPage(
 server <- function(input, output) {
   output$US_alc_Consumption <- renderPlot({
     
-<<<<<<< HEAD
-    if ("All" %in% input$state && length(input$state) == 1 ) {
-=======
-    if (input$state == "All") {
->>>>>>> 8d359fa4ad90f26d6c6ab4208bf6c30a3151c102
+    if ("All" %in% input$state && length(input$state) == 1) {
       filtered_data <- switch(input$style,
                               "Beer" = alc %>% group_by(State) %>% summarise(total = mean(`Beer (Per capita consumption)`)),
                               "Wine" = alc %>% group_by(State) %>% summarise(total = mean(`Wine (Per capita consumption)`)),
@@ -54,7 +55,7 @@ server <- function(input, output) {
       
       top_states <- filtered_data %>% slice_max(n = 5, order_by = total)
       
-      # how to order the data (either the State or the total consumption of selected style of alcohol)
+      # how to order the data (either the State or the total consumption of the selected style of alcohol)
       if (input$organization == "by States") {
         if (input$order == "asc") {
           filtered_data <- filtered_data %>% mutate(State = factor(State, levels = rev(unique(State)))) %>% arrange(State)
@@ -83,36 +84,7 @@ server <- function(input, output) {
         theme(legend.title = element_text(size = 20)) +
         geom_text(aes(label = ifelse(State %in% top_states$State, round(total, 2), "")), hjust = -0.1, size = 5, color = "black")
       
-      
-<<<<<<< HEAD
     } else {
-=======
-    }else {
-      
-      #filtered_data <- switch(input$style,
-                    #          "Beer" = alc %>% filter(State %in% input$state) %>% 
-                   #             group_by(State, Year) %>%
-                  #              pivot_wider(names_from = State, values_from = `Beer (Per capita consumption)`) %>%
-                 #               rename(consumption = `Beer (Per capita consumption)`),
-                #              
-               #               "Wine" = alc %>% filter(State %in% input$state) %>%
-              #                  group_by(State, Year) %>%
-             #                   pivot_wider(names_from = State, values_from = `Wine (Per capita consumption)`) %>%
-            #                    rename(consumption = `Wine (Per capita consumption)`),
-           #                   
-          #                    "Spirits" = alc %>% filter(State %in% input$state) %>%
-         #                       group_by(State, Year) %>%
-        #                        pivot_wider(names_from = State, values_from = `Spirits (Per capita consumption)`) %>%
-       #                         rename(consumption = `Spirits (Per capita consumption)`),
-      #                        
-     #                         "All Types" = alc %>%
-    #                            filter(State %in% input$state) %>%
-   #                             select(State, Year, `All beverages (Per capita consumption)`) %>%
-  #                              group_by(State, Year) %>%
- #                               rename(consumption = `All beverages (Per capita consumption)`)
-#      )
->>>>>>> 8d359fa4ad90f26d6c6ab4208bf6c30a3151c102
-
       
       filtered_data <- switch(input$style,
                               "Beer" = alc %>% filter(State %in% input$state) %>% 
@@ -129,21 +101,6 @@ server <- function(input, output) {
                                 summarise(total = mean(`All beverages (Per capita consumption)`))
       )
       
-<<<<<<< HEAD
-      filtered_data <- filtered_data %>% arrange(State, desc(total))
-      
-      
-      plt <- ggplot(filtered_data, aes(x = Year, y = total, color = State)) +
-        geom_line() +
-        labs(title =  paste(input$style, "Consumption by year", "for", paste(input$state, collapse = ", ")),
-             x = "Year", y = paste(input$style, "Consumption")) +
-        theme(plot.title = element_text(hjust = 0.5, size = 25)) +
-        theme(axis.title = element_text(size = 20)) +
-        theme(axis.text = element_text(size = 15)) +
-        theme(legend.title = element_text(size = 23)) +
-        theme(legend.text = element_text(size = 15))
-=======
-      order_direction <- ifelse(input$order == "asc", "asc", "desc")
       filtered_data <- filtered_data %>% arrange(State, desc(total))
       
       maxData <- filtered_data %>% group_by(State) %>% arrange(desc(total)) %>% slice(1)
@@ -159,13 +116,11 @@ server <- function(input, output) {
                   aes(label = round(total, 2)), hjust = -0.1, size = 8, color = "black") +
         geom_text(data = filtered_data %>% group_by(State) %>% arrange(total) %>% slice(1),
                   aes(label = round(total, 2)), hjust = -0.1, size = 8, color = "black")
->>>>>>> 8d359fa4ad90f26d6c6ab4208bf6c30a3151c102
     }
     
     plt
     
-  }, width = "auto", height = "auto") # allows for plots to resize with window
-  
+  }, width = "auto", height = "auto") # allows for plots to resize with the window
 }
 
 # Run the application 
@@ -173,7 +128,6 @@ shinyApp(ui = ui, server = server)
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -182,7 +136,3 @@ shinyApp(ui = ui, server = server)
 
 
 
-
-
-=======
->>>>>>> 8d359fa4ad90f26d6c6ab4208bf6c30a3151c102
