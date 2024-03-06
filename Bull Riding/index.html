@@ -6,7 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Investigating a collection of professional bull riders">
+<meta name="author" content="Matt Maslow">
+<meta name="dcterms.date" content="2024-03-06">
+<meta name="description" content="Investigating a collection of professional bull riders and their statistics from 2012 season.">
 
 <title>Professional Bull Riding Analysis</title>
 <style>
@@ -48,25 +50,33 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title">
 <h1 class="title">Professional Bull Riding Analysis</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">summary statistics</div>
-    <div class="quarto-category"></div>
+    <div class="quarto-category">Linear Regression</div>
+    <div class="quarto-category">Summary Statistics/Interpretations</div>
+    <div class="quarto-category">Influential Points</div>
+    <div class="quarto-category">Hypothesis Testing</div>
   </div>
   </div>
 
 <div>
   <div class="description">
-    Investigating a collection of professional bull riders
+    Investigating a collection of professional bull riders and their statistics from 2012 season.
   </div>
 </div>
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Matt Maslow </p>
+          </div>
+  </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Invalid Date</p>
+      <p class="date">March 6, 2024</p>
     </div>
   </div>
   
@@ -78,66 +88,18 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="module" class="level2">
-<h2 class="anchored" data-anchor-id="module">Module</h2>
-<p>Please note that these material have not yet completed the required pedagogical and industry peer-reviews to become a published module on the SCORE Network. However, instructors are still welcome to use these materials if they are so inclined.</p>
-<p>wesbite: “https://rpubs.com/sharaf/42815”</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="bullRider.jpg" class="img-fluid figure-img"></p>
-<figcaption>Professional Bull Riding</figcaption>
-</figure>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<div style="text-align:center;">
+<p><img src="bullRider.jpg" alt="Professional Bull Riding - PBR" width="350"></p>
 </div>
-<section id="introduction" class="level3">
-<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
-<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Learning Objectives">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Learning Objectives
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-1" class="callout-1-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li></li>
-<li></li>
-<li></li>
-</ol>
-</div>
-</div>
-</div>
-<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Methods">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Methods
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<ol type="1">
-<li></li>
-<li></li>
-<li></li>
-</ol>
-</div>
-</div>
-</div>
-</section>
 <section id="data" class="level3">
 <h3 class="anchored" data-anchor-id="data">Data</h3>
 <section id="about-the-data" class="level4">
 <h4 class="anchored" data-anchor-id="about-the-data">About the data</h4>
-<p>A data frame for….</p>
+<p>A data frame for 38 professional bull riders from the 2012 season. The data frame contains 38 rows of observations, one for each rider, and 18 variables.</p>
+<p><em>Source:</em> <a href="https://courses.edx.org/c4x/UTAustinX/UT.7.01x/asset/BullRiders.csv" target="_blank">Bull Riding Data Set</a></p>
 <p>Download data: <a href="BullRiders.csv">BullRiders.csv</a></p>
-<p>Data Source: <a href="https://courses.edx.org/c4x/UTAustinX/UT.7.01x/asset/BullRiders.csv" target="_blank">Bull Riding Data Set</a></p>
 <details>
 <summary>
 <b>Variable Descriptions</b>
@@ -231,26 +193,17 @@ Methods
 </details>
 </section>
 </section>
-<section id="materials" class="level3">
-<h3 class="anchored" data-anchor-id="materials">Materials</h3>
-<p><a href="pbr.docx">Class handout</a></p>
-<p><a href="pbr_answers.docx">Class handout - with solutions</a></p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled" title="Conclusion">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Conclusion
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>In conclusion, the analysis….. The presence of outliers….</p>
-</div>
-</div>
-</div>
+<section id="questions" class="level3">
+<h3 class="anchored" data-anchor-id="questions">Questions</h3>
+<p><code>1.</code> What are the most significant predictors of a bull rider’s final points?</p>
+<p><code>2.</code> What is the stronger model for predicting PBR’s final points?</p>
+<p><code>3.</code> Are there any outliers or a potential influential point? How would we handle these point(s)?</p>
+<p><code>4.</code> If we want to create a new variable called “Age” in the PBR dataset, how would we do that?</p>
+</section>
+<section id="references" class="level3">
+<h3 class="anchored" data-anchor-id="references">References:</h3>
+<p><a href="https://rpubs.com/sharaf/42815">Link to the Data Set</a></p>
+<p><a href="https://www.quora.com/Why-are-the-bulls-so-pissed-in-PBR-and-other-bull-riding-competitions-Is-it-instinct-that-makes-them-buck-off-the-rider-then-run-back-into-the-pen-or-do-they-train-them-to-act-like-this">Link to the Photo</a></p>
 </section>
 </section>
 

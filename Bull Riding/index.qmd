@@ -1,58 +1,35 @@
 ---
 title: "Professional Bull Riding Analysis"
-date: syst.date()
-description: Investigating a collection of professional bull riders
+date: "2024-03-06"
+author: "Matt Maslow"
+description: Investigating a collection of professional bull riders and their statistics from 2012 season.
 editor: 
   canonical: true
 categories:
-  - summary statistics
-  - 
+  - Linear Regression
+  - Summary Statistics/Interpretations
+  - Influential Points
+  - Hypothesis Testing
 ---
 
 
-## Module
+## Motivation
 
-Please note that these material have not yet completed the required pedagogical and industry peer-reviews to become a published module on the SCORE Network. However, instructors are still welcome to use these materials if they are so inclined.
-
-wesbite: "https://rpubs.com/sharaf/42815"
-
-![Professional Bull Riding](bullRider.jpg)
-
-
-### Introduction
-
-::: {.callout-note collapse="true" title="Learning Objectives" appearance="minimal"}
-
-1.
-
-2.
-
-3.
-
-
-:::
-
-::: {.callout-note collapse="true" title="Methods" appearance="minimal"}
-
-1.
-
-2.
-
-3.
-
-:::
-
+<div style="text-align:center;">
+  <img src="bullRider.jpg" alt="Professional Bull Riding - PBR" width="350"/>
+</div>
 
 
 ### Data
 
+
 #### About the data
 
-A data frame for....
+A data frame for 38 professional bull riders from the 2012 season. The data frame contains 38 rows of observations, one for each rider, and 18 variables. 
+
+*Source:* <a href="https://courses.edx.org/c4x/UTAustinX/UT.7.01x/asset/BullRiders.csv" target="_blank">Bull Riding Data Set</a>
 
 Download data: [BullRiders.csv](BullRiders.csv)
-
-Data Source: <a href="https://courses.edx.org/c4x/UTAustinX/UT.7.01x/asset/BullRiders.csv" target="_blank">Bull Riding Data Set</a>
 
 <details>
 
@@ -83,21 +60,22 @@ Data Source: <a href="https://courses.edx.org/c4x/UTAustinX/UT.7.01x/asset/BullR
 </details>
 
 
-### Materials
+### Questions
 
-[Class handout](pbr.docx)
+`1.` What are the most significant predictors of a bull rider's final points?
 
-[Class handout - with solutions](pbr_answers.docx)
+`2.` What is the stronger model for predicting PBR's final points?
 
-::: {.callout-note collapse="true" title="Conclusion" appearance="minimal"}
-In conclusion, the analysis.....
-The presence of outliers....
-:::
+`3.` Are there any outliers or a potential influential point? How would we handle these point(s)?
 
+`4.` If we want to create a new variable called "Age" in the PBR dataset, how would we do that?
 
 
 
 
+### References:
 
+[Link to the Data Set](https://rpubs.com/sharaf/42815)
 
+[Link to the Photo](https://www.quora.com/Why-are-the-bulls-so-pissed-in-PBR-and-other-bull-riding-competitions-Is-it-instinct-that-makes-them-buck-off-the-rider-then-run-back-into-the-pen-or-do-they-train-them-to-act-like-this)
 
