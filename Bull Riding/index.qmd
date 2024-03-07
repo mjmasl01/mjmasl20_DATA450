@@ -73,7 +73,7 @@ Download data: [BullRiders.csv](BullRiders.csv)
 
 ### References:
 
-[Link to the Data Set](https://rpubs.com/sharaf/42815)
+[Link to the Data Set](https://azcms.pbr.com/statistics/rider/?season=2012&tour=WORLD)
 
 [Link to the Photo](https://www.quora.com/Why-are-the-bulls-so-pissed-in-PBR-and-other-bull-riding-competitions-Is-it-instinct-that-makes-them-buck-off-the-rider-then-run-back-into-the-pen-or-do-they-train-them-to-act-like-this)
 

@@ -1,0 +1,37 @@
+---
+title: "Data Manipulation"
+author: "Matt Maslow"
+format: html
+---
+
+
+```{r}
+library(tidyverse)
+library(rvest)
+library(httr)
+```
+
+
+```{r}
+# webscraping for the Bull Riders data (2023 Touring Pro Division)
+url <- "https://azcms.pbr.com/statistics/rider/?season=2023&tour=TPD-US"
+rider_data <- url %>%
+  read_html() %>%
+  html_nodes("table") %>%
+  html_table() %>%
+  .[[1]]
+rider_data %>% head()
+```
+
+```{r}
+# webscraping for the Bull's data (2023 Touring Pro Division)
+url <- "https://azcms.pbr.com/statistics/bull/?season=2023&tour=TPD-US"
+rbull_data <- url %>%
+  read_html() %>%
+  html_nodes("table") %>%
+  html_table() %>%
+  .[[1]]
+rbull_data %>% head()
+```
+
+
