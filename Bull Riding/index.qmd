@@ -7,18 +7,17 @@ editor:
   canonical: true
 categories:
   - Linear Regression
-  - Summary Statistics/Interpretations
+  - Summary Statistics
   - Influential Points
   - Hypothesis Testing
 ---
 
 
-## Motivation
+## Module
 
 <div style="text-align:center;">
   <img src="bullRider.jpg" alt="Professional Bull Riding - PBR" width="350"/>
 </div>
-
 
 ### Data
 
@@ -68,8 +67,7 @@ Download data: [BullRiders.csv](BullRiders.csv)
 
 `3.` Are there any outliers or a potential influential point? How would we handle these point(s)?
 
-`4.` If we want to create a new variable called "Age" in the PBR dataset, how would we do that?
-
+`4.` If we want to create a new variable in the PBR dataset, how would we do that?
 
 
 

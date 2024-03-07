@@ -108,7 +108,7 @@ server <- function(input, output) {
       plt <- ggplot(filtered_data, aes(x = Year, y = total, color = State)) +
         geom_line() +
         theme_minimal() +
-        labs(title = paste("US", paste(input$state, collapse = ", "), input$style, "Consumption"), x = "Year", y = input$style) +
+        labs(title = paste(paste(input$state, collapse = ", "), input$style, "Consumption"), x = "Year", y = input$style) +
         theme(axis.title = element_text(size = 30)) +
         theme(axis.text = element_text(size = 22)) +
         theme(plot.title = element_text(hjust = 0.5, size = 35)) #+
