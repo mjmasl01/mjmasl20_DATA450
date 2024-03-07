@@ -24,7 +24,7 @@ categories:
 
 #### About the data
 
-A data frame for 38 professional bull riders from the 2012 season. The data frame contains 38 rows of observations, one for each rider, and 18 variables. 
+A data frame for 38 riders from the 2012 season of the Professional Bull Riding (PBR) league. The data frame contains 38 rows of observations, one for each rider, and 18 variables. 
 
 *Source:* <a href="https://courses.edx.org/c4x/UTAustinX/UT.7.01x/asset/BullRiders.csv" target="_blank">Bull Riding Data Set</a>
 
