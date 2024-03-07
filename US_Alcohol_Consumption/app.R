@@ -111,11 +111,10 @@ server <- function(input, output) {
         labs(title = paste(paste(input$state, collapse = ", "), input$style, "Consumption"), x = "Year", y = input$style) +
         theme(axis.title = element_text(size = 30)) +
         theme(axis.text = element_text(size = 22)) +
-        theme(plot.title = element_text(hjust = 0.5, size = 35)) #+
-       # geom_text(data = filtered_data %>% group_by(State) %>% arrange(desc(total)) %>% slice(1),
-        #          aes(label = round(total, 2)), hjust = -0.1, size = 8, color = "black") +
-        #geom_text(data = filtered_data %>% group_by(State) %>% arrange(total) %>% slice(1),
-         #         aes(label = round(total, 2)), hjust = -0.1, size = 8, color = "black")
+        theme(plot.title = element_text(hjust = 0.5, size = 35)) +
+        # increase the size of the legend
+        theme(legend.title = element_text(size = 23)) +
+        theme(legend.text = element_text(size = 16))
     }
     
     plt
