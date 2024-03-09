@@ -19,44 +19,39 @@ categories:
   <img src="bullRider.jpg" alt="Professional Bull Riding - PBR" width="350"/>
 </div>
 
-### Data
+### Data Preparation
+
+[Link Text](Webscrap_Cleaning_Data.html)
 
 
 #### About the data
 
-A data frame for 38 riders from the 2012 season of the Professional Bull Riding (PBR) league. The data frame contains 38 rows of observations, one for each rider, and 18 variables. 
+A data frame for 38 riders from the 2023 season of the Professional Bull Riding (PBR) league, for the Touring Pro Division. These data frames hold the stats for the riders and the bulls they ride. The data was scraped from the PBR website. For the rider data set, there are 357 riders with 16 variables, however, not all of the riders points meaning they would not hold a lot of significance in data and may skew the results. The bull data set has 50 bulls with 11 variables on their scoring statistics.
 
-*Source:* <a href="https://courses.edx.org/c4x/UTAustinX/UT.7.01x/asset/BullRiders.csv" target="_blank">Bull Riding Data Set</a>
-
-Download data: [BullRiders.csv](BullRiders.csv)
 
 <details>
 
-<summary><b>Variable Descriptions</b></summary>
+<summary><b>Riders Data: Variable Descriptions</b></summary>
 
 | **Variable**      | **Description**                                              |
 |-------------------|--------------------------------------------------------------|
-| `Rider`           | name of the pro. bull rider                                  |
-| `PBRank`          | bull rider's ranking                                         |
-| `YearBorn`        | birth year of the bull rider                                 |
-| `Height`          | bull rider's height                                          |
-| `Weight`          | bull rider's weight                                          |
-| `YearsPro`        | number of years bull rider has been pro                      |
-| `Season`          | year season takes place                                      |
-| `Events`          | number of events each bull rider has participated in         |
-| `BuckOuts`        | number of falls or times rider thrown off bull               |
-| `Rides`           | number of rides                                              |
-| `CupPoints`       | riders points towards the Cup/trophy                         |
-| `place`           | riders ranking in competition                                |
-| `RidePer`         | percent of their rides that were a success                   |
-| `Wins`            | total number of wins                                         |
-| `Top5`            | number of times rider placed in the top 5                    |
-| `Top10`           | number of times rider placed in the top 10                   |
-| `FinalPoints`     | total points for the season                                  |
-| `Earnings`        | total earnings for the season                                |
-
+| `Rider`           | name of the pro bull rider                                  |
 
 </details>
+Download data: [BullRiders.csv](BullRiders.csv)
+
+
+
+<details>
+
+<summary><b>Bull's Data: Variable Descriptions</b></summary>
+
+| **Variable**      | **Description**                                              |
+|-------------------|--------------------------------------------------------------|
+| `Bull`           | name of the bull                                  |
+
+</details>
+Download data: [Bulls.csv](Bulls.csv)
 
 
 ### Questions
@@ -73,7 +68,9 @@ Download data: [BullRiders.csv](BullRiders.csv)
 
 ### References:
 
-[Link to the Data Set](https://azcms.pbr.com/statistics/rider/?season=2012&tour=WORLD)
+<a href="https://azcms.pbr.com/statistics/rider/?season=2023&tour=TPD-US" target="_blank">Bull Rider's Data</a>
+
+<a href="https://azcms.pbr.com/statistics/bull/" target="_blank">Bull's Data</a>
 
 [Link to the Photo](https://www.quora.com/Why-are-the-bulls-so-pissed-in-PBR-and-other-bull-riding-competitions-Is-it-instinct-that-makes-them-buck-off-the-rider-then-run-back-into-the-pen-or-do-they-train-them-to-act-like-this)
 

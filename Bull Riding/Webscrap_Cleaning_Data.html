@@ -7,10 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Matt Maslow">
-<meta name="dcterms.date" content="2024-03-06">
-<meta name="description" content="Investigating a collection of professional bull riders and their statistics from 2012 season.">
 
-<title>Professional Bull Riding Analysis</title>
+<title>Data Manipulation: Webscraping and Cleaning Data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,19 +21,53 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="index_files/libs/clipboard/clipboard.min.js"></script>
-<script src="index_files/libs/quarto-html/quarto.js"></script>
-<script src="index_files/libs/quarto-html/popper.min.js"></script>
-<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="index_files/libs/quarto-html/anchor.min.js"></script>
-<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="Webscrap_Cleaning_Data_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Webscrap_Cleaning_Data_files/libs/quarto-html/quarto.js"></script>
+<script src="Webscrap_Cleaning_Data_files/libs/quarto-html/popper.min.js"></script>
+<script src="Webscrap_Cleaning_Data_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="Webscrap_Cleaning_Data_files/libs/quarto-html/anchor.min.js"></script>
+<link href="Webscrap_Cleaning_Data_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Webscrap_Cleaning_Data_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Webscrap_Cleaning_Data_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="Webscrap_Cleaning_Data_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="Webscrap_Cleaning_Data_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -48,20 +80,9 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Professional Bull Riding Analysis</h1>
-  <div class="quarto-categories">
-    <div class="quarto-category">Linear Regression</div>
-    <div class="quarto-category">Summary Statistics</div>
-    <div class="quarto-category">Influential Points</div>
-    <div class="quarto-category">Hypothesis Testing</div>
-  </div>
-  </div>
-
-<div>
-  <div class="description">
-    Investigating a collection of professional bull riders and their statistics from 2012 season.
-  </div>
+<h1 class="title">Data Manipulation: Webscraping and Cleaning Data</h1>
 </div>
+
 
 
 <div class="quarto-title-meta">
@@ -73,12 +94,6 @@ ul.task-list li input[type="checkbox"] {
           </div>
   </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">March 6, 2024</p>
-    </div>
-  </div>
   
     
   </div>
@@ -88,80 +103,121 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="module" class="level2">
-<h2 class="anchored" data-anchor-id="module">Module</h2>
-<div style="text-align:center;">
-<p><img src="bullRider.jpg" alt="Professional Bull Riding - PBR" width="350"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.0     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<section id="data-preparation" class="level3">
-<h3 class="anchored" data-anchor-id="data-preparation">Data Preparation</h3>
-<p><a href="Webscrap_Cleaning_Data.html">Link Text</a></p>
-<section id="about-the-data" class="level4">
-<h4 class="anchored" data-anchor-id="about-the-data">About the data</h4>
-<p>A data frame for 38 riders from the 2023 season of the Professional Bull Riding (PBR) league, for the Touring Pro Division. These data frames hold the stats for the riders and the bulls they ride. The data was scraped from the PBR website. For the rider data set, there are 357 riders with 16 variables, however, not all of the riders points meaning they would not hold a lot of significance in data and may skew the results. The bull data set has 50 bulls with 11 variables on their scoring statistics.</p>
-<details>
-<summary>
-<b>Riders Data: Variable Descriptions</b>
-</summary>
-<table class="table">
-<colgroup>
-<col style="width: 23%">
-<col style="width: 76%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Variable</strong></th>
-<th><strong>Description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>Rider</code></td>
-<td>name of the pro bull rider</td>
-</tr>
-</tbody>
-</table>
-</details>
-<p>Download data: <a href="BullRiders.csv">BullRiders.csv</a></p>
-<details>
-<summary>
-<b>Bull’s Data: Variable Descriptions</b>
-</summary>
-<table class="table">
-<colgroup>
-<col style="width: 23%">
-<col style="width: 76%">
-</colgroup>
-<thead>
-<tr class="header">
-<th><strong>Variable</strong></th>
-<th><strong>Description</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>Bull</code></td>
-<td>name of the bull</td>
-</tr>
-</tbody>
-</table>
-</details>
-<p>Download data: <a href="Bulls.csv">Bulls.csv</a></p>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rvest)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'rvest'
+
+The following object is masked from 'package:readr':
+
+    guess_encoding</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(httr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="webscrape-the-data" class="level1">
+<h1>Webscrape the Data</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># webscraping for the Bull Riders data (2023 Touring Pro Division)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>url1 <span class="ot">&lt;-</span> <span class="st">"https://azcms.pbr.com/statistics/rider/?season=2023&amp;tour=TPD-US"</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>rider_data <span class="ot">&lt;-</span> url1 <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">"table"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  .[[<span class="dv">1</span>]]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>rider_data <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 17
+  Name   Points `Points Back` Events  Outs Rides Buckoffs Outs / Rides / Bucko…¹
+  &lt;chr&gt;   &lt;dbl&gt; &lt;chr&gt;          &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt;                 
+1 Josh …    288 -                  3     7     7        0 7 / 7 / 0             
+2 Alex …    176 -112              10    15     9        6 15 / 9 / 6            
+3 João …    165 -123               8    14     8        6 14 / 8 / 6            
+4 Alvar…    161 -127              11    18     6       12 18 / 6 / 12           
+5 Cole …    140 -148               1     3     3        0 3 / 3 / 0             
+6 Ednél…    120 -168               3     6     4        2 6 / 4 / 2             
+# ℹ abbreviated name: ¹​`Outs / Rides / Buckoffs`
+# ℹ 9 more variables: `% Ridden` &lt;chr&gt;, `Avg Ride Score` &lt;dbl&gt;,
+#   `Highest RideScore` &lt;dbl&gt;, `Avg Buckoff Time` &lt;dbl&gt;, `Round Wins` &lt;int&gt;,
+#   `Event Wins` &lt;int&gt;, `ReRides Taken` &lt;int&gt;, Earnings &lt;chr&gt;,
+#   `90Pt Rides` &lt;int&gt;</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># webscraping for the Bull's data (2023 Touring Pro Division)</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>url2 <span class="ot">&lt;-</span> <span class="st">"https://azcms.pbr.com/statistics/bull/?season=2023&amp;tour=TPD-US"</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>rbull_data <span class="ot">&lt;-</span> url2 <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read_html</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_nodes</span>(<span class="st">"table"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">html_table</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  .[[<span class="dv">1</span>]]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>rbull_data <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 11
+  Name          `World Champ Avg Score` Events  Outs Ridden Buckoffs
+  &lt;chr&gt;                           &lt;dbl&gt;  &lt;int&gt; &lt;int&gt;  &lt;int&gt;    &lt;int&gt;
+1 Doolin Dalton                    46        1     1      0        1
+2 Zip Tie                          46        1     1      0        1
+3 Don Juan                         46        1     1      0        1
+4 Silent Hello                     46        1     1      0        1
+5 UR 23F                           45.5      1     1      0        1
+6 Big Hawk                         45.5      1     1      0        1
+# ℹ 5 more variables: `Outs / Ridden / Buckoffs` &lt;chr&gt;, `Avg BullScore` &lt;dbl&gt;,
+#   `Highest BullScore` &lt;dbl&gt;, `Avg Buckoff Time` &lt;dbl&gt;, `45Pt Rides` &lt;int&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="clean-the-data" class="level1">
+<h1>Clean the Data</h1>
+</section>
+<section id="bull-rider-data" class="level1">
+<h1>Bull Rider Data</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>rider_data <span class="ot">&lt;-</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  rider_data <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Rider =</span> Name, <span class="at">prop.Ridden =</span> <span class="st">`</span><span class="at">% Ridden</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="st">`</span><span class="at">Outs / Rides / Buckoffs</span><span class="st">`</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Outs"</span>, <span class="st">"Rides"</span>, <span class="st">"Buckoffs"</span>), <span class="at">sep =</span> <span class="st">" / "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Outs =</span> <span class="fu">as.numeric</span>(Outs),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Rides =</span> <span class="fu">as.numeric</span>(Rides),</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Buckoffs =</span> <span class="fu">as.numeric</span>(Buckoffs),</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">prop.Ridden =</span> <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">"%"</span>, <span class="st">""</span>, prop.Ridden)) <span class="sc">/</span> <span class="dv">100</span>,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">Earnings =</span> <span class="fu">ifelse</span>(<span class="sc">!</span><span class="fu">is.na</span>(Earnings), <span class="fu">as.numeric</span>(<span class="fu">gsub</span>(<span class="st">"[^0-9.]"</span>, <span class="st">""</span>, Earnings)), <span class="cn">NA</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="bull-data" class="level2">
+<h2 class="anchored" data-anchor-id="bull-data">Bull Data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rbull_data <span class="ot">&lt;-</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  rbull_data <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Bull =</span> Name) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(<span class="st">`</span><span class="at">Outs / Ridden / Buckoffs</span><span class="st">`</span>, <span class="at">into =</span> <span class="fu">c</span>(<span class="st">"Outs"</span>, <span class="st">"Rides"</span>, <span class="st">"Buckoffs"</span>), <span class="at">sep =</span> <span class="st">" / "</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Outs =</span> <span class="fu">as.numeric</span>(Outs),</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Rides =</span> <span class="fu">as.numeric</span>(Rides),</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">Buckoffs =</span> <span class="fu">as.numeric</span>(Buckoffs)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>         )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 </section>
-<section id="questions" class="level3">
-<h3 class="anchored" data-anchor-id="questions">Questions</h3>
-<p><code>1.</code> What are the most significant predictors of a bull rider’s final points?</p>
-<p><code>2.</code> What is the stronger model for predicting PBR’s final points?</p>
-<p><code>3.</code> Are there any outliers or a potential influential point? How would we handle these point(s)?</p>
-<p><code>4.</code> If we want to create a new variable in the PBR dataset, how would we do that?</p>
-</section>
-<section id="references" class="level3">
-<h3 class="anchored" data-anchor-id="references">References:</h3>
-<p><a href="https://azcms.pbr.com/statistics/rider/?season=2023&amp;tour=TPD-US" target="_blank">Bull Rider’s Data</a></p>
-<p><a href="https://azcms.pbr.com/statistics/bull/" target="_blank">Bull’s Data</a></p>
-<p><a href="https://www.quora.com/Why-are-the-bulls-so-pissed-in-PBR-and-other-bull-riding-competitions-Is-it-instinct-that-makes-them-buck-off-the-rider-then-run-back-into-the-pen-or-do-they-train-them-to-act-like-this">Link to the Photo</a></p>
-</section>
+<section id="write-the-new-csv-from-the-webscraped-data" class="level1">
+<h1>Write the New CSV from the Webscraped Data</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#write_csv(rider_data, "BullRiders.csv")</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#write_csv(rbull_data, "Bulls.csv")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 
 </main>
