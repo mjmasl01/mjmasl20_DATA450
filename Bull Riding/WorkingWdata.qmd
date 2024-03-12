@@ -73,28 +73,20 @@ aug_rider
 aug_rider %>%
   ggplot(aes(x = age, y = .fitted)) +
   geom_line(aes(color = as.factor(chol)), size=1.5) +
-  geom_rug(data = heart_df, sides = "t", alpha = 0.3,
-           aes(y = target)) +
-  geom_rug(data = heart_df, sides = "b", alpha = 0.3,
-           aes(y = target)) +
+  geom_rug(data = riders, sides = "t", alpha = 0.3,
+           aes(y = Points)) +
+  geom_rug(data = riders, sides = "b", alpha = 0.3,
+           aes(y = Points)) +
   theme_minimal() +
   labs(title = "Predicted Probability of Heart Disease by Age, Cholesterol, and Sex",
        x = "Age",
        y = "Predicted Probability of Heart Disease",
        color = "Cholesterol Level")
-
-aug_rider %>%
-  ggplot(aes(x = Points, y = .fitted)) +
-  geom_point() +
-  geom_errorbar(aes(ymin = .fitted - 2 * .se.fit, ymax = .fitted + 2 * .se.fit), width = 0) +
-  geom_abline(slope = 1, intercept = 0, color = "red") +
-  labs(title = "Fitted vs. Actual Points",
-       x = "Actual Points",
-       y = "Fitted Points")
 ```
 
 
 
+# 4 If we want to create a new variable in the PBR dataset, how would we do that?
 
 
 
