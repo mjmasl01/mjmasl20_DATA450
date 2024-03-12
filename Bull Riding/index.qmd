@@ -2,7 +2,7 @@
 title: "Professional Bull Riding Analysis"
 date: "2024-03-06"
 author: "Matt Maslow"
-description: Investigating a collection of professional bull riders and their statistics from 2012 season.
+description: Investigating a collection of professional bull riders and their statistics from 2023 season for the Touring Pro Division.
 editor: 
   canonical: true
 categories:
@@ -21,7 +21,7 @@ categories:
 
 ### Data Preparation
 
-[Link Text](Webscrap_Cleaning_Data.html)
+[Link Text](Webscrap_Cleaning_Data.qmd)
 
 
 #### About the data
