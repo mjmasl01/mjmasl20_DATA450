@@ -26,16 +26,16 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="index_files/libs/clipboard/clipboard.min.js"></script>
-<script src="index_files/libs/quarto-html/quarto.js"></script>
-<script src="index_files/libs/quarto-html/popper.min.js"></script>
-<script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="index_files/libs/quarto-html/anchor.min.js"></script>
-<link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="BullRiders_n_Bulls_files/libs/clipboard/clipboard.min.js"></script>
+<script src="BullRiders_n_Bulls_files/libs/quarto-html/quarto.js"></script>
+<script src="BullRiders_n_Bulls_files/libs/quarto-html/popper.min.js"></script>
+<script src="BullRiders_n_Bulls_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="BullRiders_n_Bulls_files/libs/quarto-html/anchor.min.js"></script>
+<link href="BullRiders_n_Bulls_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="BullRiders_n_Bulls_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="BullRiders_n_Bulls_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="BullRiders_n_Bulls_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="BullRiders_n_Bulls_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -105,8 +105,8 @@ ul.task-list li input[type="checkbox"] {
 </summary>
 <table class="table">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 76%">
+<col style="width: 26%">
+<col style="width: 73%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -117,7 +117,67 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td><code>Rider</code></td>
-<td>name of the pro bull rider</td>
+<td>Name of the pro bull rider</td>
+</tr>
+<tr class="even">
+<td><code>Points</code></td>
+<td>Total points earned by the bull rider</td>
+</tr>
+<tr class="odd">
+<td><code>Points Back</code></td>
+<td>Difference in points between the rider and the leader</td>
+</tr>
+<tr class="even">
+<td><code>Events</code></td>
+<td>Number of events participated in by the rider</td>
+</tr>
+<tr class="odd">
+<td><code>Outs</code></td>
+<td>Number of times the rider was scheduled to ride</td>
+</tr>
+<tr class="even">
+<td><code>Rides</code></td>
+<td>Number of successful rides by the rider</td>
+</tr>
+<tr class="odd">
+<td><code>Buckoffs</code></td>
+<td>Number of unsuccessful rides by the rider</td>
+</tr>
+<tr class="even">
+<td><code>prop.Ridden</code></td>
+<td>Percent of successfull rides</td>
+</tr>
+<tr class="odd">
+<td><code>Avg Ride Score</code></td>
+<td>Average score for successful rides by the rider</td>
+</tr>
+<tr class="even">
+<td><code>Highest RideScore</code></td>
+<td>Highest score achieved by the rider in a single ride</td>
+</tr>
+<tr class="odd">
+<td><code>Avg Buckoff Time</code></td>
+<td>Average time spent on bulls that the rider failed to ride</td>
+</tr>
+<tr class="even">
+<td><code>Round Wins</code></td>
+<td>Number of round wins achieved by the rider</td>
+</tr>
+<tr class="odd">
+<td><code>Event Wins</code></td>
+<td>Number of event wins achieved by the rider</td>
+</tr>
+<tr class="even">
+<td><code>ReRides Taken</code></td>
+<td>Number of re-rides taken by the rider</td>
+</tr>
+<tr class="odd">
+<td><code>Earnings</code></td>
+<td>Total earnings of the rider from bull riding events</td>
+</tr>
+<tr class="even">
+<td><code>90Pt Rides</code></td>
+<td>Number of rides scoring 90 points or above</td>
 </tr>
 </tbody>
 </table>
@@ -129,8 +189,8 @@ ul.task-list li input[type="checkbox"] {
 </summary>
 <table class="table">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 76%">
+<col style="width: 28%">
+<col style="width: 71%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -141,7 +201,47 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td><code>Bull</code></td>
-<td>name of the bull</td>
+<td>Name of the bull</td>
+</tr>
+<tr class="even">
+<td><code>World Champ Avg Score</code></td>
+<td>Average score of the bull at world championship events</td>
+</tr>
+<tr class="odd">
+<td><code>Events</code></td>
+<td>Number of events the bull participated in</td>
+</tr>
+<tr class="even">
+<td><code>Ridden</code></td>
+<td>Number of times the bull was successfully ridden</td>
+</tr>
+<tr class="odd">
+<td><code>Outs</code></td>
+<td>Number of times the bull was scheduled to be ridden</td>
+</tr>
+<tr class="even">
+<td><code>Rides</code></td>
+<td>Number of successful rides on the bull</td>
+</tr>
+<tr class="odd">
+<td><code>Buckoffs</code></td>
+<td>Number of unsuccessful rides on the bull</td>
+</tr>
+<tr class="even">
+<td><code>Avg BullScore</code></td>
+<td>Average score for successful rides on the bull</td>
+</tr>
+<tr class="odd">
+<td><code>Highest BullScore</code></td>
+<td>Highest score achieved by a rider on this bull</td>
+</tr>
+<tr class="even">
+<td><code>Avg Buckoff Time</code></td>
+<td>Average time a rider spends on the bull before bucking off</td>
+</tr>
+<tr class="odd">
+<td><code>45Pt Rides</code></td>
+<td>Number of rides scoring 45 points or above on this bull</td>
 </tr>
 </tbody>
 </table>

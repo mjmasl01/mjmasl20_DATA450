@@ -48,8 +48,9 @@ rider_data <-
   mutate(Outs = as.numeric(Outs),
          Rides = as.numeric(Rides),
          Buckoffs = as.numeric(Buckoffs),
-         prop.Ridden = as.numeric(sub("%", "", prop.Ridden)) / 100,
-         Earnings = ifelse(!is.na(Earnings), as.numeric(gsub("[^0-9.]", "", Earnings)), NA)
+         Earnings = ifelse(!is.na(Earnings), as.numeric(gsub("[^0-9.]", "", Earnings)), NA),
+         `Points Back` = ifelse(!is.na(`Points Back`), as.numeric(gsub("[^0-9.]", "", `Points Back`)), NA),
+         prop.Ridden = as.numeric(gsub("[^0-9.]", "", prop.Ridden))
          )
 ```
 
@@ -73,9 +74,9 @@ rbull_data <-
 # Write the New CSV from the Webscraped Data
 
 ```{r}
-#write_csv(rider_data, "BullRiders.csv")
+# write_csv(rider_data, "BullRiders.csv")
 
-#write_csv(rbull_data, "Bulls.csv")
+# write_csv(rbull_data, "Bulls.csv")
 ```
 
 
