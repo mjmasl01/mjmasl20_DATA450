@@ -2,6 +2,7 @@
 
 library(shiny)
 library(tidyverse)
+library(plotly)
 
 # Reading the data
 alc <- read_csv("Alcohol_Consumption_US.csv")
